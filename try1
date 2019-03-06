@@ -1,0 +1,83 @@
+package org.cloudbus.cloudsim.examples;
+
+import java.io.FileOutputStream;
+import java.io.ObjectInputFilter.Config;
+import java.util.Calendar;
+
+import org.cloudbus.cloudsim.CloudFile;
+import org.cloudbus.cloudsim.CloudHarddriveStorage;
+import org.cloudbus.cloudsim.Log;
+import org.cloudbus.cloudsim.ParameterException;
+import org.cloudbus.cloudsim.core.CloudSim;
+
+//import sun.util.calendar.BaseCalendar.Date;
+
+public class try1 {
+	public static void main(String srgs[]) throws ParameterException
+	{
+		CloudHarddriveStorage hdst = new CloudHarddriveStorage(50);
+		double hdstCap = hdst.getCapacity();
+		double hdstAvailSpace = hdst.getAvailableSpace();
+		Log.printLine(
+
+		"Capacity="+hdstCap+" Available="+hdstAvailSpace);
+		// First step: Initialize the CloudSim package. It should be called
+		// before creating any entities.
+		int num_user = 1; // number of cloud users
+		Calendar calendar = Calendar.getInstance();
+
+		boolean trace_flag = false; // mean trace events
+		// Initialize the CloudSim library
+		CloudSim.init(num_user, calendar, trace_flag);
+
+		//Config config = new Config();
+		//Object ciphertext = config.getProperty("CipherText");
+		//Object cipherKey = config.getProperty("CipherKey");
+		//config.closeFile("read");
+		CloudFile file2 =
+
+		new CloudFile ("data.cfg",2);
+		Object ciphertext = null;
+		Object cipherKey = null;
+		file2.addCipherData(
+
+		ciphertext, cipherKey);
+		Log.printLine(file2.getName());
+
+		//FileOutputStream fop = new FileOutputStream(file2);  //1
+		CloudSim.startSimulation();
+
+		//Date date = CloudSim.getSimulationCalendar().getTime(); //2
+		//Log.printLine(date);  //3
+		 //org.cloudbus.cloudsim.File file1 = new org.cloudbus.cloudsim.File ("data.cfg",50); //4
+		//Log.printLine(file1.getName());  //5
+		//file1.getFileAttribute();//
+		//int size1 = file1.getSize();//6
+		//Log.printLine("size="+size1);//7
+		double timetaken = hdst.addCloudFile(file2);
+		hdstCap =
+
+		hdst.getCapacity();
+		hdstAvailSpace =
+
+		hdst.getAvailableSpace();
+		Log.printLine(
+
+		"Capacity="+hdstCap+" Available="+hdstAvailSpace);
+		 
+		 
+		/*-----------------------------
+		Data rerieval
+		-------------------------------
+		 */
+
+
+		CloudFile fd1 =
+
+		hdst.getCloudFile("data.cfg");
+		ciphertext=fd1.getCipherData("cText");
+		cipherKey=fd1.getCipherData("cKey");
+
+		}
+	}
+
